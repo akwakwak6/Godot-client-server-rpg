@@ -1,0 +1,9 @@
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\ExportDebug\Rpg 3d.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\ExportDebug\Rpg 3d.pdb
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.csproj.AssemblyReference.cache
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.AssemblyInfoInputs.cache
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.AssemblyInfo.cs
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.csproj.CoreCompileInputs.cache
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\ExportDebug\Rpg 3d.pdb

@@ -1,0 +1,47 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\misso\\OneDrive\\Documents\\Godot\\My game VR\\RPG 3D\\Rpg 3d.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\misso\\OneDrive\\Documents\\Godot\\My game VR\\RPG 3D\\Rpg 3d.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\misso\\OneDrive\\Documents\\Godot\\My game VR\\RPG 3D\\Rpg 3d.csproj",
+        "projectName": "Rpg 3d",
+        "projectPath": "C:\\Users\\misso\\OneDrive\\Documents\\Godot\\My game VR\\RPG 3D\\Rpg 3d.csproj",
+        "packagesPath": "C:\\Users\\misso\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\misso\\OneDrive\\Documents\\Godot\\My game VR\\RPG 3D\\.mono\\temp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\misso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "targetAlias": "net472",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
