@@ -8,7 +8,9 @@ public class Network : Node
     private const string SERVER_IP = "127.0.0.1";
 
     private NetworkedMultiplayerENet NetworkPeer {get;set;}
+    private Boolean IsConnected = false;
 
+    public readonly PackedScene PlayerSkinScene = GD.Load<PackedScene>("res://nodes/Player/PlayerSkin/PlayerSkin.tscn");
 
     public override void _Ready()
     {
@@ -33,33 +35,46 @@ public class Network : Node
 
     private void ClientConnectedSucceeded(){
         GD.Print("connected success");
+        //Rpc("RequestData","dataName",123);
+        IsConnected = true;
     }
 
     private void ClientConnectedFaild(){
         GD.Print("connected faild");
+        IsConnected = false;
     }
 
     private void ServerPlayerConnected(int playerID){
         GD.Print($"Server player {playerID} connected");
+        KinematicBody ps = PlayerSkinScene.Instance<KinematicBody>();
+        ps.Name = playerID.ToString();
+        ps.SetNetworkMaster(playerID);
+        AddChild(ps);
     }
 
     private void ServerPlayerDisconnect(int playerID){
         GD.Print($"Server player {playerID} disconnect");
     }
 
+    [Remote]
+    public void RequestData(string data,int requestNode){
+        GD.Print($"send value of {data} => {requestNode}");
+    }
+
+    [Remote]
+    public void PlayerData(Transform d){
+        GD.Print("Update DATA");
+        int pId = GetTree().GetRpcSenderId();
+        GetNode<KinematicBody>(pId.ToString()).GlobalTransform = d;
+        GD.Print(d);
+    }
+
+    public void SendPlayerData(Transform d){
+        if( IsConnected )
+            RpcId(1,"PlayerData",d);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

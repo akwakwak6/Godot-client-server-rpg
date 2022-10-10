@@ -24,8 +24,8 @@ gdscript/warnings/return_value_discarded=false
 multirun/number_of_windows=2
 multirun/window_distance=50
 multirun/add_custom_args=true
-multirun/first_window_args="client 1"
-multirun/other_window_args="client 2"
+multirun/first_window_args="server"
+multirun/other_window_args="client"
 
 [display]
 

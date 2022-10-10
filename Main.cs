@@ -28,9 +28,14 @@ public class Main : Node
 		if ( Array.Exists(Godot.OS.GetCmdlineArgs(), element => element == "server"))
 		{
 			network.StartServer();
+			Camera c = new Camera();
+			c.GlobalTranslation = new Vector3(0,2.2f,6.6f);
+			AddChild(c);
 		}else
 		{
 			network.StartClient();
+			Player p = GD.Load<PackedScene>("res://nodes/Player/Player.tscn").Instance<Player>();
+			AddChild(p);
 		}
 		
 	}

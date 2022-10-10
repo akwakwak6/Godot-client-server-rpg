@@ -2,6 +2,7 @@ using Godot;
 
 public class Player : KinematicBody
 {
+    private Network Network;
     private const int SPEED = 10;
     private const int TURN_SPEED = 5;
     private const int JUMP_VELO = 20;
@@ -11,6 +12,12 @@ public class Player : KinematicBody
     public readonly PackedScene BulletScene = GD.Load<PackedScene>("res://nodes/Items/Weapons/Bullets/Bullet.tscn");
     private Vector3 Velo = Vector3.Zero;
 
+    public override void _Ready()
+    {
+        GetNode<Timer>("SendData").Connect("timeout",this,"sendData");
+        Network = GetNode<Network>("/root/Network");
+    }
+
     public override void _Input(InputEvent e)
     {
         if (e.IsActionPressed("ui_accept")){
@@ -18,6 +25,10 @@ public class Player : KinematicBody
             b.SetOrigin(GlobalTransform);
             GetParent().AddChild(b);
         }
+    }
+
+    private void sendData(){
+        Network.SendPlayerData(GlobalTransform);
     }
 
 
