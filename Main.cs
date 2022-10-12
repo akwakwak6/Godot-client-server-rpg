@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Godot;
 using System;
 
@@ -21,23 +22,34 @@ C:\Users\misso\OneDrive\Documents\Godot\Godot_v3.5.1-stable_mono_win64\Godot_v3.
 public class Main : Node
 {
 
+	Camera c;
+
 	public override void _Ready()
 	{
-		Network network = GetNode<Network>("/root/Network");
+		IServerNetwork serverNetwork = this.GetServiceFromIOC<IServerNetwork>();
+		IClientNetwork clientNetwork = this.GetServiceFromIOC<IClientNetwork>();
 
 		if ( Array.Exists(Godot.OS.GetCmdlineArgs(), element => element == "server"))
 		{
-			network.StartServer();
-			Camera c = new Camera();
-			c.GlobalTranslation = new Vector3(0,2.2f,6.6f);
+			serverNetwork.StartServer();
+			c = new Camera();
+			//connet enter in tree
+			c.Connect("tree_entered",this, "addVector" );
 			AddChild(c);
 		}else
 		{
-			network.StartClient();
+			clientNetwork.StartClient();
 			Player p = GD.Load<PackedScene>("res://nodes/Player/Player.tscn").Instance<Player>();
 			AddChild(p);
 		}
 		
 	}
+	private void addVector(){
+		c.GlobalTranslation = new Vector3(0,2.2f,6.6f);
+	}
 
+	public void test([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = ""){
+		GD.Print("=> ");
+		GD.Print(sourceFilePath);
+	}
 }

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Godot;
 using System;
 
@@ -13,9 +14,13 @@ public class Bullet : KinematicBody
         return this;
     }
 
+    //TODO static methode to get scene with like true contructor, 
+    // => maybe funcion d'extensio sur node
+
     public override void _Ready()
     {
-        GetNode<Timer>("Timer").Connect("timeout",this,"TimeOut");
+        //TODO use nameof
+        GetNode<Timer>("Timer").Connect("timeout",this,nameof(TimeOut));
         GlobalTransform = Origin;
         Direction = - GlobalTransform.basis.z * SPEED;
     }

@@ -2,12 +2,12 @@ using Godot;
 
 public class Player : KinematicBody
 {
-    private Network Network;
+    private IClientNetwork ClientNetwork;
     private const int SPEED = 10;
     private const int TURN_SPEED = 5;
     private const int JUMP_VELO = 20;
     private const int GRAVITY = 1;
-    private const int Y_MIN_BEFORE_TP_TO_ORIGIN = -100;
+    private const int Y_MIN_BEFORE_TP_TO_ORIGIN = -10;
 
     public readonly PackedScene BulletScene = GD.Load<PackedScene>("res://nodes/Items/Weapons/Bullets/Bullet.tscn");
     private Vector3 Velo = Vector3.Zero;
@@ -15,20 +15,20 @@ public class Player : KinematicBody
     public override void _Ready()
     {
         GetNode<Timer>("SendData").Connect("timeout",this,"sendData");
-        Network = GetNode<Network>("/root/Network");
+        ClientNetwork = this.GetServiceFromIOC<IClientNetwork>();
     }
 
     public override void _Input(InputEvent e)
     {
         if (e.IsActionPressed("ui_accept")){
-            Bullet b =  BulletScene.Instance<Bullet>();//new Bullet(GlobalRotation); //new BulletScene(GlobalRotate);
+            Bullet b =  BulletScene.Instance<Bullet>();
             b.SetOrigin(GlobalTransform);
             GetParent().AddChild(b);
         }
     }
 
     private void sendData(){
-        Network.SendPlayerData(GlobalTransform);
+        ClientNetwork.SendPlayerData(GlobalTransform);
     }
 
 
@@ -65,9 +65,6 @@ public class Player : KinematicBody
             Velo = Velo.Rotated(Vector3.Up,Rotation.y);
             Velo = MoveAndSlide(Velo,Vector3.Up);
         }
-
-        
-
     }
 
 }

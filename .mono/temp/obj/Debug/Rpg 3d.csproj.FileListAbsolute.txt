@@ -7,3 +7,9 @@ C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\R
 C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.csproj.CoreCompileInputs.cache
 C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.dll
 C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.pdb
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.csproj.CopyComplete

@@ -16,6 +16,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+IocContainer="*res://nodes/Helper/IocContainer.cs"
 Network="*res://nodes/Network/Network.cs"
 
 [debug]
