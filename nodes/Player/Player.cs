@@ -16,6 +16,8 @@ public class Player : KinematicBody
     {
         GetNode<Timer>("SendData").Connect("timeout",this,"sendData");
         ClientNetwork = this.GetServiceFromIOC<IClientNetwork>();
+        PlayerData pd = this.GetServiceFromIOC<PlayerData>();
+        pd.SetPlayer(GetNode<Camera>("Camera"));
     }
 
     public override void _Input(InputEvent e)
