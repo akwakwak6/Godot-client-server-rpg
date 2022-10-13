@@ -28,7 +28,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5,
 shape = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.997576, 0.0695823, 0, -0.0695823, 0.997576, 0, 1.65653, 1.65761 )
+transform = Transform( 1, 0, 0, 0, 0.932809, 0.360371, 0, -0.360371, 0.932809, 0, 2.75211, 3.4393 )
 
 [node name="TopHat" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.913857, -0.149298 )

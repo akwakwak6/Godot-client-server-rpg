@@ -36,10 +36,8 @@ public class HealtBar : Spatial
     public override void _Process(float delta)
     {
         if(Camera == null) return;
-        Vector3 camera_pos = Camera.GlobalTransform.origin;
-        camera_pos.y = 0;
-        LookAt(camera_pos,Vector3.Up);
-        
+
+        LookAt(Camera.GlobalTransform.origin,Vector3.Up); 
     }
 
 }
