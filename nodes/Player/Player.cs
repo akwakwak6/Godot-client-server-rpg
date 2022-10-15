@@ -4,7 +4,7 @@ public class Player : KinematicBody
 {
     private IClientNetwork ClientNetwork;
     private const int SPEED = 10;
-    private const int TURN_SPEED = 5;
+    private const int TURN_SPEED = 3;
     private const int JUMP_VELO = 20;
     private const int GRAVITY = 1;
     private const int Y_MIN_BEFORE_TP_TO_ORIGIN = -10;
@@ -24,7 +24,14 @@ public class Player : KinematicBody
     {
         if (e.IsActionPressed("ui_accept")){
             Bullet b =  BulletScene.Instance<Bullet>();
-            b.SetOrigin(GlobalTransform);
+
+            Transform globalPosition = GlobalTransform;
+            //vecter to move up and forward ( 0.5m )
+            Vector3 trans = new Vector3(0,0.5f,-0.3f);
+            // turn vector fct this node position 
+            // add this vector to origine
+            globalPosition.origin += trans.Rotated(Vector3.Up,Rotation.y);
+            b.SetOrigin(globalPosition);
             GetParent().AddChild(b);
         }
     }
@@ -67,6 +74,10 @@ public class Player : KinematicBody
             Velo = Velo.Rotated(Vector3.Up,Rotation.y);
             Velo = MoveAndSlide(Velo,Vector3.Up);
         }
+    }
+
+    public void OnHit(int damage){
+        GD.Print("player took "+damage);
     }
 
 }

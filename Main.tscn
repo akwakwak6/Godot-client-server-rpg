@@ -2,15 +2,16 @@
 
 [ext_resource path="res://Main.cs" type="Script" id=1]
 [ext_resource path="res://nodes/World/Ground.tscn" type="PackedScene" id=2]
-[ext_resource path="res://nodes/Mobs/Mob.tscn" type="PackedScene" id=3]
+[ext_resource path="res://nodes/Mobs/MobArea/MobArea.tscn" type="PackedScene" id=3]
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
 
 [node name="Ground" parent="." instance=ExtResource( 2 )]
 
-[node name="MobPivot" type="Spatial" parent="."]
-transform = Transform( 0.0446132, 0, -0.999004, 0, 1, 0, 0.999004, 0, 0.0446132, -0.324753, 0, -5.8108 )
+[node name="MobArea" parent="." instance=ExtResource( 3 )]
+monitorable = false
+MobScencePath = "res://nodes/Mobs/Mob.tscn"
+Number = 1
 
-[node name="Mob" parent="MobPivot" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 0.996195, -0.0871557, 0, 0.0871557, 0.996195, 0, 0, 0 )
+[node name="Timer" type="Timer" parent="."]

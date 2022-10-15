@@ -10,6 +10,10 @@ public class PlayerData{
         return Camera;
     }
 
+    public void RemoveCameraUpdate(Action<Camera> a){
+        CameraUpdate-=a;
+    }
+
 
     public void SetPlayer(Camera c){
         Camera = c;

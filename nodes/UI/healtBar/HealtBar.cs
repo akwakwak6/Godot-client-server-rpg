@@ -5,6 +5,7 @@ public class HealtBar : Spatial
 {
     private MeshInstance Life;
     private Camera Camera;
+    private PlayerData _PlayerData;
     private int _Value = 100;
 
     public int Value{
@@ -22,8 +23,8 @@ public class HealtBar : Spatial
     public override void _Ready()
     {
         GD.Print("ready");
-        PlayerData pd = this.GetServiceFromIOC<PlayerData>();
-        Camera = pd.ListenCameraUpdate(CameraUpdate);
+        PlayerData _PlayerData = this.GetServiceFromIOC<PlayerData>();
+        Camera = _PlayerData.ListenCameraUpdate(CameraUpdate);
 
         Life = GetNode<MeshInstance>("FC");
         //Camera = 
@@ -38,6 +39,12 @@ public class HealtBar : Spatial
         if(Camera == null) return;
 
         LookAt(Camera.GlobalTransform.origin,Vector3.Up); 
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        _PlayerData?.RemoveCameraUpdate(CameraUpdate);
     }
 
 }
