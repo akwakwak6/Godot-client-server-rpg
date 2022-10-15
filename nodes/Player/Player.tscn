@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://nodes/Player/Player.cs" type="Script" id=1]
+[ext_resource path="res://nodes/UI/healtBar/HealtBar.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.25
@@ -38,3 +39,6 @@ material/0 = SubResource( 4 )
 [node name="SendData" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
+
+[node name="HealtBar" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67283, 0 )

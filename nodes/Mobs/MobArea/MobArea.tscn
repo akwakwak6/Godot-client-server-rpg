@@ -12,4 +12,4 @@ Number = 0
 transform = Transform( 4.24759, 0, 0, 0, 1.42725, 0, 0, 0, 2.58101, 0, 0, 0 )
 shape = SubResource( 1 )
 
-[node name="Mobs" type="Node" parent="."]
+[node name="Mobs" type="Spatial" parent="."]

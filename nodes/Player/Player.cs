@@ -9,15 +9,24 @@ public class Player : KinematicBody
     private const int GRAVITY = 1;
     private const int Y_MIN_BEFORE_TP_TO_ORIGIN = -10;
 
-    public readonly PackedScene BulletScene = GD.Load<PackedScene>("res://nodes/Items/Weapons/Bullets/Bullet.tscn");
+    private Camera _Camera;
+
+
+    private int HP = 100;
+
+    private readonly PackedScene BulletScene = GD.Load<PackedScene>("res://nodes/Items/Weapons/Bullets/Bullet.tscn");
+    private readonly  Environment DeadSky = GD.Load<Environment>("res://nodes/Player/DeadSky.tres");
     private Vector3 Velo = Vector3.Zero;
+    private HealtBar _HealtBar;
 
     public override void _Ready()
     {
         GetNode<Timer>("SendData").Connect("timeout",this,"sendData");
         ClientNetwork = this.GetServiceFromIOC<IClientNetwork>();
         PlayerData pd = this.GetServiceFromIOC<PlayerData>();
-        pd.SetPlayer(GetNode<Camera>("Camera"));
+        pd.SetPlayer(GetNode<Camera>("Camera"),this);
+        _HealtBar = GetNode<HealtBar>("HealtBar");
+        _Camera = GetNode<Camera>("Camera");
     }
 
     public override void _Input(InputEvent e)
@@ -76,8 +85,18 @@ public class Player : KinematicBody
         }
     }
 
-    public void OnHit(int damage){
+    public async void OnHit(int damage){
         GD.Print("player took "+damage);
+        HP -= damage;
+        if (HP <= 0){
+            _HealtBar.Value = 0;
+            GD.Print("Player dead");
+            _Camera.Environment = DeadSky;
+            await ToSignal(GetTree().CreateTimer(5), "timeout");
+            _Camera.Environment = null;
+            HP = 100;
+        }
+        _HealtBar.Value = HP;
     }
 
 }

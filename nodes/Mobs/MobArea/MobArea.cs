@@ -52,7 +52,8 @@ public class MobArea : Area
         if(timer)
             await ToSignal(GetTree().CreateTimer(random.Next(TIME_TO_POP_MIN,TIME_TO_POP_MAX)), "timeout");
         CanPopMob = true;
-        Node m = MobScene.Instance();
+        Spatial m = MobScene.Instance<Spatial>();
+        //m.GlobalTranslation = this.GlobalTranslation;
         MobsNode.AddChild(m);
     }
 

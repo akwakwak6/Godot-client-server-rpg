@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://nodes/Mobs/Mob.cs" type="Script" id=1]
 [ext_resource path="res://nodes/UI/healtBar/HealtBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://nodes/Player/AggroArea/AggroArea.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.3
@@ -18,9 +19,26 @@ top_radius = 0.0
 bottom_radius = 0.05
 height = 0.2
 
+[sub_resource type="Animation" id=26]
+resource_name = "Aggro"
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.2, 0 ), Vector3( 0, 0, 0 ) ]
+}
+
 [sub_resource type="Animation" id=5]
 resource_name = "Attack"
-length = 3.5
+length = 3.2
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:translation")
 tracks/0/interp = 1
@@ -40,10 +58,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 3.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 90, 0 ) ]
+"values": [ Vector3( 0, 90, 0 ), Vector3( 0, 90, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:scale")
@@ -375,6 +393,9 @@ tracks/8/keys = {
 "values": [ Vector3( 0.0544128, 0.0746389, 0.198542 ) ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "Aggro"
+
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Attack"
 
@@ -387,40 +408,54 @@ animation = "Die"
 [sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
-switch_mode = 1
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=13]
-switch_mode = 2
-auto_advance = true
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
 switch_mode = 1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=32]
+switch_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=33]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
 
 [sub_resource type="AnimationNodeStateMachine" id=16]
+states/Aggro/node = SubResource( 27 )
+states/Aggro/position = Vector2( 159, 200 )
 states/Attack/node = SubResource( 9 )
-states/Attack/position = Vector2( 317, 68 )
+states/Attack/position = Vector2( 385, 266 )
 states/Attack2/node = SubResource( 19 )
-states/Attack2/position = Vector2( 311, 335 )
+states/Attack2/position = Vector2( 385, 406 )
 states/Die/node = SubResource( 10 )
 states/Die/position = Vector2( 561, 131 )
 states/Idle/node = SubResource( 11 )
-states/Idle/position = Vector2( 317, 212 )
-transitions = [ "Idle", "Attack", SubResource( 12 ), "Attack", "Idle", SubResource( 13 ), "Idle", "Die", SubResource( 14 ), "Attack", "Die", SubResource( 15 ), "Idle", "Attack2", SubResource( 20 ), "Attack2", "Idle", SubResource( 21 ), "Attack2", "Die", SubResource( 22 ) ]
+states/Idle/position = Vector2( 385, 46 )
+transitions = [ "Idle", "Die", SubResource( 14 ), "Attack", "Die", SubResource( 15 ), "Attack2", "Die", SubResource( 22 ), "Aggro", "Attack", SubResource( 28 ), "Attack", "Aggro", SubResource( 29 ), "Aggro", "Idle", SubResource( 30 ), "Idle", "Aggro", SubResource( 31 ), "Aggro", "Attack2", SubResource( 32 ), "Attack2", "Aggro", SubResource( 33 ), "Aggro", "Die", SubResource( 34 ) ]
 start_node = "Idle"
 end_node = "Die"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+
+[sub_resource type="SphereMesh" id=25]
+radius = 0.04
+height = 0.1
 
 [node name="Mob" type="KinematicBody"]
 
@@ -455,6 +490,7 @@ mesh = SubResource( 4 )
 skeleton = NodePath("../..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
+anims/Aggro = SubResource( 26 )
 anims/Attack = SubResource( 5 )
 anims/Attack2 = SubResource( 18 )
 anims/Die = SubResource( 6 )
@@ -468,5 +504,19 @@ active = true
 process_mode = 0
 parameters/playback = SubResource( 17 )
 
+[node name="Eyes" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0520629, 0.822597, 0 )
+
+[node name="RightEye" type="MeshInstance" parent="Body/Eyes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0.12 )
+mesh = SubResource( 25 )
+
+[node name="LeftEye" type="MeshInstance" parent="Body/Eyes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, -0.12 )
+mesh = SubResource( 25 )
+
 [node name="HealtBar" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3071, 0 )
+
+[node name="AggroArea" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.30859 )

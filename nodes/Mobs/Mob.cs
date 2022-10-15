@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 
 public class Mob : KinematicBody
@@ -17,12 +18,24 @@ public class Mob : KinematicBody
     public readonly PackedScene AttackScene = GD.Load<PackedScene>("res://nodes/Mobs/Attack/Attack.tscn");
 
 
+    private bool IsMovingToAttack = false;
     private bool IsDead = false;
     private bool IsAggro = false;
+    private bool IsAttacking = false;
     private bool MoveRandom = true,MoveGoBack = false;
     private float RandomMoveAngle = (float)GD.RandRange( 0 , Math.PI );
     private float RandomMoveDistance = (float)GD.RandRange( MoveMin , MoveMax );
     private Timer waiterTimer;
+
+    private float DistanceToAttack;
+
+    private SpatialMaterial IdleColorEyes = new SpatialMaterial();
+    private SpatialMaterial AggroColorEyes = new SpatialMaterial();
+
+    private MeshInstance RightEye;
+    private MeshInstance LeftEye;
+
+    private Spatial Target;
 
     public override void _Ready(){
         waiterTimer = new Timer();
@@ -32,17 +45,36 @@ public class Mob : KinematicBody
         playBack = (AnimationNodeStateMachinePlayback)animationTree.Get("parameters/playback");
         playBack.Start("Idle");
         lifeDisplay = GetNode<HealtBar>("../HealtBar");
+        RightEye = GetNode<MeshInstance>("Eyes/RightEye");
+        LeftEye = GetNode<MeshInstance>("Eyes/LeftEye");
+        IdleColorEyes.AlbedoColor = new Color(0,0,0);
+        AggroColorEyes.AlbedoColor = new Color(1,0,0);
 
-        Timer t = new Timer();
+        RightEye.SetSurfaceMaterial(0,IdleColorEyes);
+        LeftEye.SetSurfaceMaterial(0,IdleColorEyes);
+
+
+        GetParent().GetNode<AggroArea>("AggroArea").ConnectToAggroPkayer(OnPLayerClose);
+        /*Timer t = new Timer();
         t.WaitTime = 8;
         t.Autostart = true;
         t.Connect("timeout",this,nameof(Attack));
-        AddChild(t);
+        AddChild(t);*/
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        if(IsAttacking) return;
         if(IsDead) return;
+        if(IsMovingToAttack){
+            GetParent<KinematicBody>().LookAt(Target.GlobalTranslation,Vector3.Up);
+            GetParent<KinematicBody>().MoveAndSlide(GlobalTranslation.DirectionTo(Target.GlobalTranslation));
+            DistanceToAttack =- delta;
+            if( DistanceToAttack < 0 ){
+                IsMovingToAttack = false;
+            }
+            return;
+        }
         if(MoveRandom)
             if( RandomMoveAngle > 0){
                 RandomMoveAngle -= delta * TURN_SPEED;
@@ -69,6 +101,10 @@ public class Mob : KinematicBody
                 RandomMove();
             }
         }
+    }
+
+    private void OnPLayerClose(Player p){
+        OnHit(0);
     }
 
     private async void RandomMove(){
@@ -98,6 +134,24 @@ public class Mob : KinematicBody
 
         if(IsDead)    return;
 
+        if(!IsAggro){
+            RightEye.SetSurfaceMaterial(0,AggroColorEyes);
+            LeftEye.SetSurfaceMaterial(0,AggroColorEyes);
+            playBack.Travel("Aggro");
+
+            Timer timer = new Timer();
+            timer.WaitTime = 8;
+            timer.Autostart = true;
+            timer.Connect("timeout",this,nameof(Attack));
+            AddChild(timer);
+        }
+        IsAggro = true;
+
+
+
+        Target = this.GetServiceFromIOC<PlayerData>().GetPlayerPosition();
+        
+
         HP -= damage ;
         if ( HP > 0 ){
             lifeDisplay.Value = HP;
@@ -114,17 +168,31 @@ public class Mob : KinematicBody
     }
 
     private async void Attack(){
-        GD.Print ("Attack");
+
+        if( Target == null) return;
+        float targetDistance = Target.GlobalTranslation.DistanceTo(GlobalTranslation);
+        GD.Print( "Distance = "+ Target.GlobalTranslation.DistanceTo(GlobalTranslation) );
+
+        if( targetDistance > 2 ){
+            IsMovingToAttack = true;
+            DistanceToAttack = targetDistance - 1;
+
+            return;
+        }
+        IsMovingToAttack = false;
+        IsAttacking = true;
         float t = GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Attack").Length;
         playBack.Travel("Attack");
         Area a = AttackScene.Instance<Area>();
         GetParent().AddChild(a);
         await ToSignal(GetTree().CreateTimer(t), "timeout");
-        foreach( var b in a.GetOverlappingBodies()  ){
-            if(b is Player p){
-                p.OnHit(15);
+        if(!IsDead)
+            foreach( var b in a.GetOverlappingBodies()  ){
+                if(b is Player p){
+                    p.OnHit(75);
+                }
             }
-        }
+        IsAttacking = false;
         a.QueueFree();
 
     }
