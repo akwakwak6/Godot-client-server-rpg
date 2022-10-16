@@ -25,19 +25,16 @@ public class HealtBar : Spatial
         GD.Print("ready");
         PlayerData _PlayerData = this.GetServiceFromIOC<PlayerData>();
         Camera = _PlayerData.ListenCameraUpdate(CameraUpdate);
-
         Life = GetNode<MeshInstance>("FC");
-        //Camera = 
     }
 
     private void CameraUpdate(Camera c){
         Camera = c;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(Camera == null) return;
-
         LookAt(Camera.GlobalTransform.origin,Vector3.Up); 
     }
 

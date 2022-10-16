@@ -53,7 +53,6 @@ public class MobArea : Area
             await ToSignal(GetTree().CreateTimer(random.Next(TIME_TO_POP_MIN,TIME_TO_POP_MAX)), "timeout");
         CanPopMob = true;
         Spatial m = MobScene.Instance<Spatial>();
-        //m.GlobalTranslation = this.GlobalTranslation;
         MobsNode.AddChild(m);
     }
 
