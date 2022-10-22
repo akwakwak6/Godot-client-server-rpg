@@ -27,10 +27,12 @@ public class MobBase : KinematicBody,IMob {
     private Dictionary<Player,int> Targets = new Dictionary<Player,int>();
     protected IMobCompIdle CompIdle;
     protected IMobCompAggro compAggro;
+    protected AnimationPlayer player;
 
     public override void _Ready(){
         healtBar = GetNode<HealtBar>(healtBarPath);
         HP = MaxHP;
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -39,7 +41,6 @@ public class MobBase : KinematicBody,IMob {
             die();
             return;
         }
-
         if( State== States.Idle )
             CompIdle?.IdleAction(delta);
         else if(State== States.Aggro){
@@ -103,6 +104,8 @@ public class MobBase : KinematicBody,IMob {
         healtBar.QueueFree();
         State= States.Dead;
         SignalDead?.Invoke(this);
+        CompIdle?.Reset();
+        compAggro?.Reset();
         //TODO reset
         //
         //await ToSignal(GetTree().CreateTimer(3),"timeout");
@@ -111,6 +114,10 @@ public class MobBase : KinematicBody,IMob {
 
     public Dictionary<Player,int> getTargets(){
         return Targets;
+    }
+
+    public void PlayAnimation(string name){
+        player.Play(name);
     }
 
 }

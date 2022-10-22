@@ -16,4 +16,8 @@ public class MobAttack{
         Attack.Start(n);   
     }
 
+    public void Reset(){
+        Attack.Reset();
+    }
+
 }

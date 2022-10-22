@@ -51,6 +51,9 @@ public class MobAttackSceneZone : Area,IMobAttckScene
         foreach( PhysicsBody b in l ){
             GD.Print( " =>  " );
             GD.Print( b.Name );
+            if(b is Player p){
+                p.OnHit(DamageMax);
+            }
         }
         //List<PhysicsBody> l = GetOverlappingBodies();
     }

@@ -3,6 +3,7 @@ using System;
 
 public class DemoMob : MobBase
 {
+
     public override void _Ready(){
         base._Ready();
         CompIdle = new CompIdleRandom(this){
@@ -22,6 +23,7 @@ public class DemoMob : MobBase
             Speed = 5,
             DistToSwitchIdle = 20
         };
+        player = GetNode<AnimationPlayer>("AnimationPlayer");
 
     }
 

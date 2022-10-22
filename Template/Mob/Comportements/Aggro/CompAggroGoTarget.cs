@@ -49,7 +49,7 @@ public class CompAggroGoTarget : IMobCompAggro{
 
     }
 
-    public void Reset(){
+    public virtual void Reset(){
         Velo = Vector3.Zero;
     }
 }

@@ -3,12 +3,12 @@ using Godot;
 
 public class CompAggroAttackTarget: CompAggroGoTarget{
 
-        private Node Parent;
+        private MobBase Parent;
         protected MobAttackZone Attacks;
         //protected List<IMobAttack> Attacks;
         private bool IsAttacking = false;
 
-        public CompAggroAttackTarget(KinematicBody _parent,MobAttackZone attack):base(_parent){
+        public CompAggroAttackTarget(MobBase _parent,MobAttackZone attack):base(_parent){
                Attacks = attack;
                Parent = _parent;
 
@@ -33,6 +33,7 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
                         IsAttacking = true;
                         Attacks.Finish += AttackFinish;
                         Attacks.Start(Parent);
+                        Parent.PlayAnimation("Attack1");
                         return false;
                 }
                 
@@ -58,6 +59,11 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
 
         private void AttackFinish(){
                 IsAttacking = false;
+        }
+
+        public override void Reset(){
+                base.Reset();
+                Attacks.Reset();
         }
 
 }

@@ -12,6 +12,7 @@ public class MobAttackZone{
     private readonly Delay Delay = new Delay();
 
     public async void Start(Node p){
+        
         GD.Print("start attack");
         MobAttackSceneZone b =  MobAttackSceneZone.Instance<MobAttackSceneZone>();
         b.DamageMax = DamageMax;
@@ -20,9 +21,13 @@ public class MobAttackZone{
         p.AddChild(b);
         await Delay.wait(3000);
         b.Hit();
+        b.QueueFree();
         await Delay.wait(3000);
         Finish?.Invoke();
-        b.QueueFree();
+    }
+
+    public void Reset(){
+        Delay.Cancel();
     }
     
 }
