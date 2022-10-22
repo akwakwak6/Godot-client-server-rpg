@@ -1,6 +1,7 @@
 using System;
 using Godot;
 
+/*
 public class MobAttack{
 
     public Action Finish;
@@ -20,4 +21,4 @@ public class MobAttack{
         Attack.Reset();
     }
 
-}
+}*/

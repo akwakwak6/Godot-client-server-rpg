@@ -166,7 +166,7 @@ public class Mob : KinematicBody
 
     }
 
-    private async void Attack(){
+    private void Attack(){
 
         if( Target == null) return;
         float targetDistance = Target.GlobalTranslation.DistanceTo(GlobalTranslation);

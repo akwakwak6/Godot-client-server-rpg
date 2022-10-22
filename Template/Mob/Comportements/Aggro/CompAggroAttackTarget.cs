@@ -4,14 +4,14 @@ using Godot;
 public class CompAggroAttackTarget: CompAggroGoTarget{
 
         private MobBase Parent;
-        protected MobAttackZone Attacks;
+        //protected MobAttackZone Attacks;
         //protected List<IMobAttack> Attacks;
+        protected AbstMobAttack Attacks;
         private bool IsAttacking = false;
 
-        public CompAggroAttackTarget(MobBase _parent,MobAttackZone attack):base(_parent){
+        public CompAggroAttackTarget(MobBase _parent,AbstMobAttack attack):base(_parent){
                Attacks = attack;
                Parent = _parent;
-
         }
 
         public override bool AggroAction(Dictionary<Player,int> targets,float delta){
