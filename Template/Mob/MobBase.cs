@@ -25,7 +25,6 @@ public class MobBase : KinematicBody,IMob {
 
     //TODO maybe use set get to have list ?
     private Dictionary<Player,int> Targets = new Dictionary<Player,int>();
-
     protected IMobCompIdle CompIdle;
     protected IMobCompAggro compAggro;
 
@@ -37,7 +36,7 @@ public class MobBase : KinematicBody,IMob {
     public override void _PhysicsProcess(float delta)
     {
         if( GlobalTranslation.y < -10 ) {
-            QueueFree();
+            die();
             return;
         }
 
@@ -104,6 +103,8 @@ public class MobBase : KinematicBody,IMob {
         healtBar.QueueFree();
         State= States.Dead;
         SignalDead?.Invoke(this);
+        //TODO reset
+        //
         //await ToSignal(GetTree().CreateTimer(3),"timeout");
         QueueFree();
     }

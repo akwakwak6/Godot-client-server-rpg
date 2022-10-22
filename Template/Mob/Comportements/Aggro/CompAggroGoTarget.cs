@@ -7,17 +7,15 @@ public class CompAggroGoTarget : IMobCompAggro{
     public int DistToSwitchIdle {get;set;} = 4;
     public float TargetDistance {get;set;} = 1;
 
-    private readonly KinematicBody parent;
-    private Vector3 Velo = Vector3.Zero;
+    protected readonly KinematicBody parent;
+    protected Vector3 Velo = Vector3.Zero;
 
 
     public CompAggroGoTarget(KinematicBody _parent){
-
         parent = _parent;
-
     }
     
-    public bool AggroAction(Dictionary<Player,int> targets,float delta){
+    public virtual bool AggroAction(Dictionary<Player,int> targets,float delta){
         
         //TODO maybe put back this instruction if error 
         //if(targets.Count == 0)  return false;
@@ -28,13 +26,15 @@ public class CompAggroGoTarget : IMobCompAggro{
         var e = targets.GetEnumerator();
         e.MoveNext();
         float distanceTarget = e.Current.Key.GlobalTranslation.DistanceTo(parent.GlobalTranslation);
+        //TODO check distance  parent(x,z) - target(x,y)
+        //TODO stop try to forward if obstacle ( raycast ? )
         if(DistToSwitchIdle < distanceTarget)   return true;
         
-        //TODO fix issue when play jump
-        parent.LookAt(e.Current.Key.GlobalTranslation,Vector3.Up);
-        /*Vector3 r = parent.RotationDegrees;
-        r.y = Mathf.Lerp( parent.RotationDegrees.y, Mathf.Rad2Deg(Mathf.Atan2( e.Current.Key.GlobalTranslation.x, e.Current.Key.GlobalTranslation.z )), 1 ) ;
-        parent.RotationDegrees = r;*/
+        
+
+        Vector2 diff = new Vector2(parent.GlobalTranslation.x - e.Current.Key.GlobalTranslation.x ,  parent.GlobalTranslation.z - e.Current.Key.GlobalTranslation.z   );
+        float a = Mathf.Atan2(diff.x,diff.y); 
+        parent.RotateY(  a - parent.Rotation.y );
 
         if(TargetDistance < distanceTarget){
             vl += Vector3.Forward.Rotated(Vector3.Up,parent.Rotation.y)* Speed;

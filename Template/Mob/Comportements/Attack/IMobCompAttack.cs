@@ -1,8 +1,11 @@
-using Godot;
-using System;
 
-public interface IMobCompAttack
+public interface IMobAttack
 {
-    public void Attack();
-
+    int DamageMax {get;set;}
+    bool IsReachable(float distance);
+    void Stop();
+    void Start();
+    void Hit();
+    int CalculDamage(Player[] targets);
 }
+

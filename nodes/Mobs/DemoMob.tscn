@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://nodes/Mobs/DemoMob.cs" type="Script" id=1]
 [ext_resource path="res://Template/Mob/Item/HealtBar/HealtBar.tscn" type="PackedScene" id=2]
@@ -14,9 +14,116 @@ size = Vector3( 0.1, 0.2, 0.2 )
 [sub_resource type="SpatialMaterial" id=4]
 albedo_color = Color( 0.0352941, 0.00392157, 1, 1 )
 
+[sub_resource type="CapsuleMesh" id=5]
+radius = 0.08
+mid_height = 0.5
+
 [sub_resource type="CapsuleShape" id=2]
 radius = 0.3
 height = 0.7
+
+[sub_resource type="Animation" id=6]
+resource_name = "Attack1"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Arms:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.91415, 0 ), Vector3( 0, 0.91415, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Arms:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Arms/LeftArm:translation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1.5, 2.4, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.3, 0, -0.15 ), Vector3( 0.31003, 0, -0.308123 ), Vector3( 0.306018, 0.104058, -0.244874 ), Vector3( 0.302407, 0, -0.187949 ), Vector3( 0.3, 0, -0.15 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Arms/LeftArm:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 1.5, 2.4, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -40, -40, -40 ), Vector3( -19.9331, -15.399, -17.7838 ), Vector3( 4.86738, -27.2926, -44.9983 ), Vector3( -35.1839, -34.0958, -34.6681 ), Vector3( -40, -40, -40 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Arms:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.91415, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Arms:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Arms/LeftArm:translation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0.3, 0, -0.15 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Arms/LeftArm:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -40, -40, -40 ) ]
+}
 
 [node name="DemoMob" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -38,6 +145,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41558, 0 )
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
+[node name="Arms" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91415, 0 )
+
+[node name="RightArm" type="MeshInstance" parent="Body/Arms"]
+transform = Transform( 0.852408, 0.175893, 0.492404, -0.492404, 0.586824, 0.642788, -0.175893, -0.790379, 0.586824, -0.3, 0, -0.15 )
+mesh = SubResource( 5 )
+skeleton = NodePath("../..")
+
+[node name="LeftArm" type="MeshInstance" parent="Body/Arms"]
+transform = Transform( 0.32124, 0.808915, -0.492404, -0.492404, 0.586824, 0.642788, 0.808915, 0.0359727, 0.586824, 0.3, 0, -0.15 )
+mesh = SubResource( 5 )
+skeleton = NodePath("../..")
+
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.7, 0 )
 shape = SubResource( 2 )
@@ -49,3 +169,7 @@ visible = false
 [node name="AggroZone" parent="." instance=ExtResource( 3 )]
 Radius = 4.0
 FrontShift = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Attack1 = SubResource( 6 )
+anims/RESET = SubResource( 7 )

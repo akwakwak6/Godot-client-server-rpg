@@ -11,10 +11,20 @@ public class DemoMob : MobBase
             TimerToMoveMax = 4000,
             TimerToMoveMin = 2000
         };
-        compAggro = new CompAggroGoTarget(this){
+
+        MobAttackZone zone= new MobAttackZone();
+        zone.DamageMax = 20;
+        zone.Radius = 4;
+        zone.Height = 5;
+        
+
+        compAggro = new CompAggroAttackTarget(this,zone){
             Speed = 5,
             DistToSwitchIdle = 20
-        };      
+        };
+
     }
+
+
 
 }

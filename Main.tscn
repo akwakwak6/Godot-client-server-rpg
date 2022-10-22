@@ -16,7 +16,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8.14
 
 [node name="MobArea" parent="." instance=ExtResource( 3 )]
 MobScencePath = "res://nodes/Mobs/DemoMob.tscn"
-Number = 10
+Number = 1
 
 [node name="CollisionShape2" parent="MobArea" index="0"]
 shape = SubResource( 1 )
