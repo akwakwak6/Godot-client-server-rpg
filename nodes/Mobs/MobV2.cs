@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MobV2 : KinematicBody,IMob
+public class MobV2 : KinematicBody
 {
     private SpatialMaterial IdleColorEyes = new SpatialMaterial();
     private SpatialMaterial AggroColorEyes = new SpatialMaterial();

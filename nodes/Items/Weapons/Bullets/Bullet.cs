@@ -8,8 +8,15 @@ public class Bullet : KinematicBody
     private Vector3 Direction = Vector3.Zero;
     private CollisionShape _CollisionShape;
 
+    private Player player;
+
+//TODO net set bur property
     public Bullet SetOrigin(Transform origin){
         Origin = origin;
+        return this;
+    }
+    public Bullet SetSender(Player p){
+        player = p;
         return this;
     }
 
@@ -27,11 +34,11 @@ public class Bullet : KinematicBody
     }
 
     private void HitBody(Node body){
-        if( body is Mob mob){
-            mob.OnHit(20);
-        }else{
-            GD.Print("not a mob bye");
-        }
+        if( body is IMob mob){
+            player.AggroMob(mob);
+            mob.OnHit(20,player);
+        }else
+            GD.Print("not a mob");
         this.QueueFree();
     }
 

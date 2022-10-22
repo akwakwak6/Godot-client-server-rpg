@@ -35,12 +35,21 @@ public class Player : KinematicBody
             // add this vector to origine
             globalPosition.origin += trans.Rotated(Vector3.Up,Rotation.y);
             b.SetOrigin(globalPosition);
+            b.SetSender(this);
             GetParent().AddChild(b);
         }
     }
 
     private void sendData(){
         ClientNetwork.SendPlayerData(GlobalTransform);
+    }
+
+    public void AggroMob(IMob mob){
+        //mob.ConnectIdie(OnKilledMob);
+    }
+
+    private void OnKilledMob(IMob mob){
+        GD.Print("I Kill the mob ");
     }
 
 
@@ -57,7 +66,7 @@ public class Player : KinematicBody
         if (Input.IsActionPressed("ui_right"))
             rotation-=TURN_SPEED;
         if( rotation != 0 )
-            RotateY(delta * rotation);
+            RotateY(delta * rotation/2 );
 
         Velo *= Vector3.Up;
         if (Input.IsActionPressed("ui_up"))

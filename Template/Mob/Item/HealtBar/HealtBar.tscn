@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://nodes/UI/healtBar/HealtBar.cs" type="Script" id=1]
+[ext_resource path="res://Template/Mob/Item/HealtBar/HealtBar.cs" type="Script" id=1]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.12, 1.04, 0.12 )

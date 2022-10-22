@@ -11,8 +11,8 @@ public class MobArea : Area
     [Export(PropertyHint.Range, "0,20")]
     private int Number = 1;
 
-    private const int TIME_TO_POP_MIN = 3;
-    private const int TIME_TO_POP_MAX = 10;
+    private const int TIME_TO_POP_MIN = 1;
+    private const int TIME_TO_POP_MAX = 2;
 
 
     private PackedScene MobScene;
@@ -23,18 +23,27 @@ public class MobArea : Area
     public override void _Ready()
     {
         MobsNode = GetNode("Mobs");
-        GD.Print(MobsNode.GetClass());
 
-        MobScene = GD.Load<PackedScene>("res://nodes/Mobs/Mob.tscn");
-        for(int i = 0;i<Number;i++){
-            addMob();
-        }
-        //TODO do  methode extension =>  addTimer(this Timer, Node, Action<>() )
+        MobScene = GD.Load<PackedScene>(MobScencePath);
+
+        Connect("body_exited",this,nameof(OnBodyExited));
+        Connect("body_entered",this,nameof(OnBodyEntered));
+        
         Timer t = new Timer();
         t.WaitTime = 1;
         t.Autostart = true;
-        t.Connect("timeout",this,nameof(checkNumOfMob));
         AddChild(t);
+        //TODO use C# task
+        t.Connect("timeout",this,nameof(checkNumOfMob));
+    }
+
+    private void OnBodyExited(Node b){
+        if(b is IMob mob)
+            mob.OnOutOfIdleZone(this);
+    }
+    private void OnBodyEntered(Node b){
+        if(b is IMob mob)
+            mob.OnEnterIdleZone(this);
     }
 
     private void checkNumOfMob(){
@@ -52,8 +61,8 @@ public class MobArea : Area
         if(timer)
             await ToSignal(GetTree().CreateTimer(random.Next(TIME_TO_POP_MIN,TIME_TO_POP_MAX)), "timeout");
         CanPopMob = true;
-        Spatial m = MobScene.Instance<Spatial>();
-        MobsNode.AddChild(m);
+        MobsNode.AddChild(MobScene.Instance());
+        //TODO random or fix place
     }
 
 

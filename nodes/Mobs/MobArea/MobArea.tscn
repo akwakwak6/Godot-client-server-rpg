@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://nodes/Mobs/MobArea/MobArea.cs" type="Script" id=1]
-
-[sub_resource type="CylinderShape" id=1]
 
 [node name="MobArea" type="Area"]
 script = ExtResource( 1 )
@@ -10,6 +8,5 @@ Number = 0
 
 [node name="CollisionShape2" type="CollisionShape" parent="."]
 transform = Transform( 4.24759, 0, 0, 0, 1.42725, 0, 0, 0, 2.58101, 0, 0, 0 )
-shape = SubResource( 1 )
 
 [node name="Mobs" type="Spatial" parent="."]

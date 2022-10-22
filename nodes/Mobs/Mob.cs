@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 
 
 public class Mob : KinematicBody
@@ -15,7 +14,7 @@ public class Mob : KinematicBody
     private int SPEED = 5;
     private const int MoveMin = 1,MoveMax = 10,TimerToMoveMin = 3,TimerToMoveMax = 7;
 
-    public readonly PackedScene AttackScene = GD.Load<PackedScene>("res://nodes/Mobs/Attack/Attack.tscn");
+    //public readonly PackedScene AttackScene = GD.Load<PackedScene>("res://nodes/Mobs/Attack/Attack.tscn");
 
 
     private bool IsMovingToAttack = false;
@@ -183,7 +182,7 @@ public class Mob : KinematicBody
         IsAttacking = true;
         float t = GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Attack").Length;
         playBack.Travel("Attack");
-        Area a = AttackScene.Instance<Area>();
+        /*Area a = AttackScene.Instance<Area>();
         GetParent().AddChild(a);
         await ToSignal(GetTree().CreateTimer(t), "timeout");
         if(!IsDead)
@@ -193,7 +192,7 @@ public class Mob : KinematicBody
                 }
             }
         IsAttacking = false;
-        a.QueueFree();
+        a.QueueFree();*/
 
     }
 }
