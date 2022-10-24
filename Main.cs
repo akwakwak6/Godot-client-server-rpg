@@ -21,7 +21,6 @@ C:\Users\misso\OneDrive\Documents\Godot\Godot_v3.5.1-stable_mono_win64\Godot_v3.
 
 public class Main : Node
 {
-
 	Camera c;
 
 	public override void _Ready()

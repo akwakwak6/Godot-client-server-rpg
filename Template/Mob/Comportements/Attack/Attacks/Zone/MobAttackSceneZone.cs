@@ -1,11 +1,16 @@
-using System.Collections.Generic;
 using Godot;
 
-public class MobAttackSceneZone : Area,IMobAttckScene
-{		
-    public int DamageMax {get;set;} = 2;
+public class MobAttackSceneZonePara : AbstMobAttackScenePara{
     public float Radius {get;set;} = 2;
     public float Height {get;set;} = 2;
+}
+
+public class MobAttackSceneZone : Area,IMobAttackScene
+{
+    private MobAttackSceneZonePara p;
+    public void setPara(AbstMobAttackScenePara paras){
+        p = (MobAttackSceneZonePara) paras;
+    }
 
     public override void _Ready()
     {
@@ -14,9 +19,9 @@ public class MobAttackSceneZone : Area,IMobAttckScene
 
         MeshInstance mi = GetNode<MeshInstance>("MeshInstance");
         CylinderMesh m = new CylinderMesh();
-        m.TopRadius = Radius;
-        m.BottomRadius = Radius;
-        m.Height = Height;
+        m.TopRadius = p.Radius;
+        m.BottomRadius = p.Radius;
+        m.Height = p.Height;
         
         SpatialMaterial mat = new SpatialMaterial();
         mat.AlbedoColor = new Color(1, 0, 0, 0.3f);
@@ -25,32 +30,18 @@ public class MobAttackSceneZone : Area,IMobAttckScene
         m.SurfaceSetMaterial(0,mat);
         mi.Mesh = m;
 
-
-        shape.Radius = Radius;
-        shape.Height = Height;
+        shape.Radius = p.Radius;
+        shape.Height = p.Height;
 
         cs.Shape = shape;
         
     }
 
-    /*
-    public int CalculDamage(Player[] targets){return 0;}
-    public bool IsReachable(float distance){
-        return distance < Radius - 1;
-    }
-
-    public void Stop(){
-        QueueFree();
-    }
-    
-    public void Start(){}
-    */
-
     public void Hit(){
         Godot.Collections.Array l = GetOverlappingBodies();
         foreach( PhysicsBody b in l ){
-            if(b is Player p){
-                p.OnHit(DamageMax);
+            if(b is Player pl){
+                pl.OnHit(p.DamageMax);
             }
         }
     }

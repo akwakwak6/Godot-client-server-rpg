@@ -3,13 +3,15 @@ using States = IMob.States;
 using System;
 using Godot;
 
-[Tool]
+
 public class MobBase : KinematicBody,IMob {
 
 
     //TODO methode protected StatIdle,Stat
     private Action<IMob> SignalDead;
 
+    [Export]
+    private readonly NodePath animationPlayerPath = "AnimationPlayer";
     [Export]
     private readonly NodePath healtBarPath = "HealtBar";
     [Export]
@@ -30,6 +32,7 @@ public class MobBase : KinematicBody,IMob {
     protected AnimationPlayer player;
 
     public override void _Ready(){
+        player = GetNode<AnimationPlayer>(animationPlayerPath);
         healtBar = GetNode<HealtBar>(healtBarPath);
         HP = MaxHP;
 
@@ -101,7 +104,7 @@ public class MobBase : KinematicBody,IMob {
     }
 
     private void die(){
-        healtBar.QueueFree();
+        healtBar.QueueFree(); //TODO add ? to check null
         State= States.Dead;
         SignalDead?.Invoke(this);
         CompIdle?.Reset();
@@ -117,7 +120,7 @@ public class MobBase : KinematicBody,IMob {
     }
 
     public void PlayAnimation(string name){
-        player.Play(name);
+        player?.Play(name);
     }
 
 }

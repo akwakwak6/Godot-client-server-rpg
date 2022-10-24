@@ -13,17 +13,20 @@ public class DemoMob : MobBase
             TimerToMoveMin = 2000
         };
 
-        MobAttackZone zone= new MobAttackZone();
-        zone.DamageMax = 20;
-        zone.Radius = 4;
-        zone.Height = 5;
-        
+        MobAttackInitScene<MobAttackSceneZone> zone = 
+            new MobAttackInitScene<MobAttackSceneZone>(
+                new MobAttackSceneZonePara(){
+                    Radius = 4,
+                    Height = 4,
+                    DamageMax = 20,
+                    TimeToHit = 2000
+                }
+            );
 
         compAggro = new CompAggroAttackTarget(this,zone){
             Speed = 5,
             DistToSwitchIdle = 20
         };
-        player = GetNode<AnimationPlayer>("AnimationPlayer");
 
     }
 

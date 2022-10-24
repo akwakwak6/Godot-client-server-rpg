@@ -1,17 +1,24 @@
 using System.Collections.Generic;
+using System;
 using Godot;
 
 public class CompAggroAttackTarget: CompAggroGoTarget{
 
         private MobBase Parent;
-        //protected MobAttackZone Attacks;
-        //protected List<IMobAttack> Attacks;
-        protected AbstMobAttack Attacks;
+        private Random random = new Random();
+        protected List<IMobAttack> Attacks = new List<IMobAttack>();
         private bool IsAttacking = false;
+        private int AttackIndex;
 
-        public CompAggroAttackTarget(MobBase _parent,AbstMobAttack attack):base(_parent){
-               Attacks = attack;
+        public CompAggroAttackTarget(MobBase _parent,List<IMobAttack> attacks):base(_parent){
+               Attacks = attacks;
                Parent = _parent;
+        }
+        public CompAggroAttackTarget(MobBase _parent,params IMobAttack[] attacks):base(_parent){
+                foreach(IMobAttack a in attacks){
+                        Attacks.Add(a);        
+                }
+                Parent = _parent;
         }
 
         public override bool AggroAction(Dictionary<Player,int> targets,float delta){
@@ -27,22 +34,16 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
                 e.MoveNext();
                 float distanceTarget = e.Current.Key.GlobalTranslation.DistanceTo(parent.GlobalTranslation);
 
-                //Attacks[0].
-                //GD.Print(Attacks[0].Damage);
-                if( distanceTarget < 1 ){
+                if( distanceTarget < 1 ){//TODO distance target fct attack
                         IsAttacking = true;
-                        Attacks.Finish += AttackFinish;
-                        Attacks.Start(Parent);
+                        AttackIndex = random.Next(Attacks.Count);
+                        Attacks[AttackIndex].AddFinishAction(AttackFinish);
+                        Attacks[AttackIndex].Start(Parent);
                         Parent.PlayAnimation("Attack1");
                         return false;
                 }
                 
-
-                //TODO check distance  parent(x,z) - target(x,y)
-                //TODO stop try to forward if obstacle ( raycast ? )
                 if(DistToSwitchIdle < distanceTarget)   return true;
-                
-                
 
                 Vector2 diff = new Vector2(parent.GlobalTranslation.x - e.Current.Key.GlobalTranslation.x ,  parent.GlobalTranslation.z - e.Current.Key.GlobalTranslation.z   );
                 float a = Mathf.Atan2(diff.x,diff.y); 
@@ -59,11 +60,12 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
 
         private void AttackFinish(){
                 IsAttacking = false;
+                Attacks[AttackIndex]?.removeFinishAction(AttackFinish);
         }
 
         public override void Reset(){
                 base.Reset();
-                Attacks.Reset();
+                Attacks[AttackIndex]?.Reset();
         }
 
 }
