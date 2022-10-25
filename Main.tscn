@@ -15,10 +15,19 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8.14626, 0 )
 
 [node name="MobArea" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.59588 )
 MobScencePath = "res://nodes/Mobs/DemoMob.tscn"
 Number = 1
 
 [node name="CollisionShape2" parent="MobArea" index="0"]
 shape = SubResource( 1 )
 
+[node name="MobArea2" parent="." instance=ExtResource( 3 )]
+MobScencePath = "res://nodes/Mobs/DemoMob2.tscn"
+Number = 1
+
+[node name="CollisionShape2" parent="MobArea2" index="0"]
+shape = SubResource( 1 )
+
 [editable path="MobArea"]
+[editable path="MobArea2"]

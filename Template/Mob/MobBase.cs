@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using States = IMob.States;
 using System;
@@ -25,7 +26,6 @@ public class MobBase : KinematicBody,IMob {
     private Vector3 Velocity = Vector3.Zero;
     private HealtBar healtBar;
 
-    //TODO maybe use set get to have list ?
     private Dictionary<Player,int> Targets = new Dictionary<Player,int>();
     protected IMobCompIdle CompIdle;
     protected IMobCompAggro compAggro;
@@ -115,8 +115,16 @@ public class MobBase : KinematicBody,IMob {
         QueueFree();
     }
 
-    public Dictionary<Player,int> getTargets(){
+    public Dictionary<Player,int> GetTargets(){
         return Targets;
+    }
+
+    public List<Player> GetTargetList(){
+        return Targets.Keys.ToList();
+    }
+
+    public Player GetFirstTarget(){
+        return Targets.Keys.ToArray()[0];
     }
 
     public void PlayAnimation(string name){

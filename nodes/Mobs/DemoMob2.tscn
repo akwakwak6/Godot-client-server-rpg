@@ -1,0 +1,133 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Template/Mob/Item/HealtBar/HealtBar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Template/Mob/zone/AggroZone.tscn" type="PackedScene" id=2]
+[ext_resource path="res://nodes/Mobs/DemoMob2.cs" type="Script" id=3]
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.3
+mid_height = 0.7
+
+[sub_resource type="PrismMesh" id=2]
+size = Vector3( 0.1, 0.2, 0.2 )
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.941176, 0.0392157, 0.0392157, 1 )
+
+[sub_resource type="CylinderMesh" id=6]
+top_radius = 0.025
+bottom_radius = 0.025
+height = 1.2
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0.54902, 0.384314, 0.384314, 1 )
+
+[sub_resource type="CylinderShape" id=8]
+height = 1.2
+radius = 0.025
+
+[sub_resource type="CapsuleShape" id=5]
+radius = 0.3
+height = 0.7
+
+[sub_resource type="Animation" id=9]
+resource_name = "AttackSword"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Area:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.9, 2.5, 3, 3.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.395656, 1.2665, 0 ), Vector3( 0.727245, 1.2665, 0 ), Vector3( 0.627769, 1.2665, -0.363067 ), Vector3( 0.561451, 0.647661, -0.753167 ), Vector3( -0.574621, 0.896895, -0.907062 ), Vector3( 0.394872, 1.18422, -0.453531 ), Vector3( 0.395656, 1.2665, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Area:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.9, 2.5, 3, 3.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -28.876 ), Vector3( -30.196, 0, -20.2132 ), Vector3( -79.7326, -3.46204e-08, -14.438 ), Vector3( -65.4937, 50.726, -9.62533 ), Vector3( -32.7469, 25.363, -4.81267 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Area:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0.395656, 1.2665, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Area:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[node name="DemoMob2" type="KinematicBody"]
+script = ExtResource( 3 )
+MaxHP = 100
+
+[node name="Body" type="Spatial" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Body"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.7, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+
+[node name="RemoteTransform" type="RemoteTransform" parent="Body"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.7, 0 )
+remote_path = NodePath("../../CollisionShape")
+
+[node name="Hair" type="MeshInstance" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41558, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="Area" type="Area" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.395656, 1.2665, 0 )
+
+[node name="Sword" type="MeshInstance" parent="Body/Area"]
+mesh = SubResource( 6 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Body/Area"]
+shape = SubResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.7, 0 )
+shape = SubResource( 5 )
+
+[node name="HealtBar" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65867, 0 )
+visible = false
+
+[node name="AggroZone" parent="." instance=ExtResource( 2 )]
+Radius = 4.0
+FrontShift = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/AttackSword = SubResource( 9 )
+anims/RESET = SubResource( 10 )

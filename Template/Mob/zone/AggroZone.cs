@@ -24,19 +24,19 @@ public class AggroZone : Area
         Vector3 t =  cs.Translation;
         t.z = - FrontShift;
         cs.Translation = t;
-        Connect("body_entered",this,nameof(chackBody));
+        Connect("body_entered",this,nameof(checkBody));
     }
 
-    private void chackBody(Node n){
+    private void checkBody(Node n){
         if(n is Player p)
             mob.OnHit(0,p);
         
         if(!ShareTargets)   return;
         if(n is IMob m){
             if(m.State != States.Aggro) return;
-            var e = m.getTargets().GetEnumerator();
-            e.MoveNext();
-            mob.OnHit(0,e.Current.Key);
+            foreach(Player lp in m.GetTargetList()){
+                mob.OnHit(0,lp);
+            }
         }
     }
 

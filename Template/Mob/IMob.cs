@@ -16,6 +16,8 @@ public interface IMob{
     //public void startAnnimation(string name);
     //public List<Attack> getAttack();
 
-    public Dictionary<Player,int> getTargets();
+    public Dictionary<Player,int> GetTargets();
+    public List<Player> GetTargetList();
+    public Player GetFirstTarget();
 
 }

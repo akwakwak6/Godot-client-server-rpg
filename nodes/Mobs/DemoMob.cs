@@ -19,9 +19,22 @@ public class DemoMob : MobBase
                     Radius = 4,
                     Height = 4,
                     DamageMax = 20,
-                    TimeToHit = 2000
+                    TimeToHit = 2000,
+                    Name = "Attack1",
+                    DistMinToAttackTarget = 5
                 }
             );
+
+        /*MobAttackInitSceneFollowPlayer<MobAttackSceneZone> zone = 
+            new MobAttackInitSceneFollowPlayer<MobAttackSceneZone>(
+                new MobAttackSceneZonePara(){
+                    Radius = 4,
+                    Height = 4,
+                    DamageMax = 20,
+                    TimeToHit = 2000,
+                    Name = "Attack1"
+                }
+            );*/
 
         compAggro = new CompAggroAttackTarget(this,zone){
             Speed = 5,

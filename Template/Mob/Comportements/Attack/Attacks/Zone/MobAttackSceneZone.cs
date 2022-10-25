@@ -1,6 +1,6 @@
 using Godot;
 
-public class MobAttackSceneZonePara : AbstMobAttackScenePara{
+public class MobAttackSceneZonePara : MobAttackSceneParaBase{
     public float Radius {get;set;} = 2;
     public float Height {get;set;} = 2;
 }
@@ -8,7 +8,7 @@ public class MobAttackSceneZonePara : AbstMobAttackScenePara{
 public class MobAttackSceneZone : Area,IMobAttackScene
 {
     private MobAttackSceneZonePara p;
-    public void setPara(AbstMobAttackScenePara paras){
+    public void setPara(MobAttackSceneParaBase paras){
         p = (MobAttackSceneZonePara) paras;
     }
 
