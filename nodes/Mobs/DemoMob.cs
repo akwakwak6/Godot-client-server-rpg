@@ -14,7 +14,7 @@ public class DemoMob : MobBase
         };
 
         MobAttackInitScene<MobAttackSceneZone> zone = 
-            new MobAttackInitScene<MobAttackSceneZone>(
+            new MobAttackInitSceneOnPlayer<MobAttackSceneZone>(
                 new MobAttackSceneZonePara(){
                     Radius = 4,
                     Height = 4,

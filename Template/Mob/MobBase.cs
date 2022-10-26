@@ -26,7 +26,10 @@ public class MobBase : KinematicBody,IMob {
     private Vector3 Velocity = Vector3.Zero;
     private HealtBar healtBar;
 
-    private Dictionary<Player,int> Targets = new Dictionary<Player,int>();
+    //private Dictionary<Player,int> Targets = new Dictionary<Player,int>();
+    
+    private MobTargets Targets = new MobTargets();
+
     protected IMobCompIdle CompIdle;
     protected IMobCompAggro compAggro;
     protected AnimationPlayer player;
@@ -75,10 +78,7 @@ public class MobBase : KinematicBody,IMob {
 
         if(HP > 0){
             healtBar.Value = (float)HP/MaxHP;
-            if(Targets.ContainsKey(p))
-                Targets[p]+= damage;
-            else
-                Targets.Add(p,damage);
+            Targets.PlayerHit(p,damage);
             return;
         }
         die();
@@ -115,16 +115,11 @@ public class MobBase : KinematicBody,IMob {
         QueueFree();
     }
 
-    public Dictionary<Player,int> GetTargets(){
+    public MobTargets GetTargets(){
         return Targets;
     }
-
     public List<Player> GetTargetList(){
-        return Targets.Keys.ToList();
-    }
-
-    public Player GetFirstTarget(){
-        return Targets.Keys.ToArray()[0];
+        return Targets.GetList();
     }
 
     public void PlayAnimation(string name){
