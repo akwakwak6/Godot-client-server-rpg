@@ -22,6 +22,7 @@ public class Bullet : KinematicBody
 
     public override void _Ready()
     {
+        //TODO user C# task
         GetNode<Timer>("Timer").Connect("timeout",this,nameof(TimeOut));
         GetNode<Area>("Detector").Connect("body_entered",this,nameof(HitBody));
         GlobalTransform = Origin;

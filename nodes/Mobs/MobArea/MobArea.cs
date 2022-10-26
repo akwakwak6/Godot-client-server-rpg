@@ -33,17 +33,21 @@ public class MobArea : Area
         t.WaitTime = 1;
         t.Autostart = true;
         AddChild(t);
-        //TODO use C# task
+        //TODO use C# task => no timer and no boolean but stop timer
         t.Connect("timeout",this,nameof(checkNumOfMob));
     }
 
     private void OnBodyExited(Node b){
         if(b is IMob mob)
-            mob.OnOutOfIdleZone(this);
+            if( b.GetPath().ToString().StartsWith(this.GetPath()+"/Mobs") )
+                mob.OnOutOfIdleZone(this);
     }
     private void OnBodyEntered(Node b){
         if(b is IMob mob)
-            mob.OnEnterIdleZone(this);
+            if( b.GetPath().ToString().StartsWith(this.GetPath()+"/Mobs") )
+                mob.OnEnterIdleZone(this);
+        
+            
     }
 
     private void checkNumOfMob(){

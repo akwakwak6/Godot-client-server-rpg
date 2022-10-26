@@ -36,7 +36,6 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
                 e.MoveNext();
                 float distanceTarget = e.Current.Key.GlobalTranslation.DistanceTo(parent.GlobalTranslation);
                 //TODO interface to Select target and Attack
-                GD.Print(distanceTarget);
                 AttackIndex = random.Next(Attacks.Count);
                 if( distanceTarget < Attacks[AttackIndex].GetDistMinToAttackTarget() ){
                         IsAttacking = true;

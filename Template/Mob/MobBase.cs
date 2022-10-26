@@ -131,4 +131,8 @@ public class MobBase : KinematicBody,IMob {
         player?.Play(name);
     }
 
+    public virtual Spatial GetWheapon(){
+        throw new Exception("GetWheapon is not implemented, override it");
+    }
+
 }

@@ -5,7 +5,8 @@ public class MobAttackInitScene<S> : IMobAttack where S : Node,IMobAttackScene{
 
     //TODO use C# 8 and use static in IMobAttackScene interface => S.Path
     protected static Dictionary<Type,string> Paths = new Dictionary<Type, string>(){
-        {typeof(MobAttackSceneZone),"res://Template/Mob/Comportements/Attack/Attacks/Zone/MobAttackSceneZone.tscn"}
+        {typeof(MobAttackSceneZone),"res://Template/Mob/Comportements/Attack/Attacks/Zone/MobAttackSceneZone.tscn"},
+        {typeof(MobAttackSceneThrow),"res://Template/Mob/Comportements/Attack/Attacks/Bullet/MobAttackSceneThrow.tscn"}
     };
 
     protected Action Finish;

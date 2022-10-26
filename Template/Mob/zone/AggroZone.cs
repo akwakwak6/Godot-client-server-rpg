@@ -28,6 +28,7 @@ public class AggroZone : Area
     }
 
     private void checkBody(Node n){
+        
         if(n is Player p)
             mob.OnHit(0,p);
         
