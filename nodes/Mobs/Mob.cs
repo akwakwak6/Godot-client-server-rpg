@@ -170,7 +170,6 @@ public class Mob : KinematicBody
 
         if( Target == null) return;
         float targetDistance = Target.GlobalTranslation.DistanceTo(GlobalTranslation);
-        GD.Print( "Distance = "+ Target.GlobalTranslation.DistanceTo(GlobalTranslation) );
 
         if( targetDistance > 2 ){
             IsMovingToAttack = true;

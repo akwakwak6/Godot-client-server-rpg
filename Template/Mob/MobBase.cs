@@ -21,15 +21,10 @@ public class MobBase : KinematicBody,IMob {
 
     public States State{get;protected set;}
 
-
     private int HP;
     private Vector3 Velocity = Vector3.Zero;
     private HealtBar healtBar;
-
-    //private Dictionary<Player,int> Targets = new Dictionary<Player,int>();
-    
-    private MobTargets Targets = new MobTargets();
-
+    private MobTargets Targets;
     protected IMobCompIdle CompIdle;
     protected IMobCompAggro compAggro;
     protected AnimationPlayer player;
@@ -37,6 +32,7 @@ public class MobBase : KinematicBody,IMob {
     public override void _Ready(){
         player = GetNode<AnimationPlayer>(animationPlayerPath);
         healtBar = GetNode<HealtBar>(healtBarPath);
+        Targets = new MobTargets(this);
         HP = MaxHP;
 
     }

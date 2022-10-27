@@ -22,11 +22,17 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
         }
 
         //TODO set Parant IMOB => get Target and much more
-        public override bool AggroAction(MobTargets targets,float delta){
+        public override bool AggroAction(MobTargets targets,float delta){       
+
+                if(IsAttacking) return false;
+                targets.Reset();
+                GoBackIdle.StayAggro(targets);
         
                 //TODO maybe put back this instruction if error 
                 //if(targets.Count == 0)  return false;
-                if(IsAttacking) return false;
+
+                //TODO -> make Attack MoveToTarget then use it
+                
 
                 Player p = SelectTarget.SelectTarget(targets,Attacks);
                 Vector3 vl = Velo * Vector3.Up;
@@ -37,15 +43,16 @@ public class CompAggroAttackTarget: CompAggroGoTarget{
 
                 
                 
-                float distanceTarget =p.GlobalTranslation.DistanceTo(parent.GlobalTranslation);
+                //float distanceTarget =p.GlobalTranslation.DistanceTo(parent.GlobalTranslation);
                 //TODO interface to Select target and Attack
                 AttackIndex = SelectAttack.SelectAttack(targets,Attacks);//random.Next(Attacks.Count);
-                if( distanceTarget < Attacks[AttackIndex].GetDistMinToAttackTarget() ){
+                //if( distanceTarget < Attacks[AttackIndex].GetDistMinToAttackTarget() ){
+                if( AttackIndex != null ){
                         IsAttacking = true;
                         //AttackIndex = random.Next(Attacks.Count);
                         Attacks[AttackIndex].AddFinishAction(AttackFinish);
                         Attacks[AttackIndex].Start(Parent,p);
-                        return false;
+                        //return false;
                 }else{
                         vl += Vector3.Forward.Rotated(Vector3.Up,parent.Rotation.y)* Speed;
                 }

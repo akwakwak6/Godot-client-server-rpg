@@ -11,6 +11,7 @@ public class CompAggroGoTarget : IMobCompAggro{
 
     public IMobSelectAttack SelectAttack{get;set;} = new MobSelectRandomAttack();
     public IMobSelectTarget SelectTarget{get;set;} = new MobSelectFirstTarget();
+    public IMobGoBackIdle GoBackIdle{get;set;} = new MobGoBackIdle();
 
     protected readonly KinematicBody parent;
     protected Vector3 Velo = Vector3.Zero;
@@ -21,9 +22,9 @@ public class CompAggroGoTarget : IMobCompAggro{
     }
     
     public virtual bool AggroAction(MobTargets targets,float delta){
-        
-        //TODO maybe put back this instruction if error 
-        //if(targets.Count == 0)  return false;
+
+        //TODO resetTarget
+        //TODO check GoBackIdle ?
 
         Vector3 vl = Velo * Vector3.Up;
         vl.y -= 9.8f;
