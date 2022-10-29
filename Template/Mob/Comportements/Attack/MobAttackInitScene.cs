@@ -3,6 +3,11 @@ using System;
 using Godot;
 public class MobAttackInitScene<S> : IMobAttack where S : Node,IMobAttackScene{
 
+    public int DamageMax {
+        get{
+            return Paras.DamageMax;
+        }}
+
     //TODO use C# 8 and use static in IMobAttackScene interface => S.Path
     protected static Dictionary<Type,string> Paths = new Dictionary<Type, string>(){
         {typeof(MobAttackSceneZone),"res://Template/Mob/Comportements/Attack/Attacks/Zone/MobAttackSceneZone.tscn"},
@@ -46,6 +51,9 @@ public class MobAttackInitScene<S> : IMobAttack where S : Node,IMobAttackScene{
 
     public float GetDistMinToAttackTarget(){
         return Paras.DistMinToAttackTarget;
+    }
+    public void AttackAction(float delta){
+
     }
 
 }

@@ -24,19 +24,12 @@ public class DemoMob : MobBase
                     DistMinToAttackTarget = 5
                 }
             );
+        
+        MobAttckMove move = new MobAttckMove(){
+            Speed = 5
+        };
 
-        /*MobAttackInitSceneFollowPlayer<MobAttackSceneZone> zone = 
-            new MobAttackInitSceneFollowPlayer<MobAttackSceneZone>(
-                new MobAttackSceneZonePara(){
-                    Radius = 4,
-                    Height = 4,
-                    DamageMax = 20,
-                    TimeToHit = 2000,
-                    Name = "Attack1"
-                }
-            );*/
-
-        compAggro = new CompAggroAttackTarget(this,zone){
+        compAggro = new CompAggroAttackTarget(this,zone,move){
             Speed = 5,
             DistToSwitchIdle = 20
         };

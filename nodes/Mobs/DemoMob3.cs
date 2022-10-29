@@ -26,8 +26,11 @@ public class DemoMob3 : MobBase
                     Time = 5000
                 }
             );
+        MobAttckMove move = new MobAttckMove(){
+            Speed = 5
+        };
         
-        compAggro = new CompAggroAttackTarget(this,zone){
+        compAggro = new CompAggroAttackTarget(this,zone,move){
             Speed = 5,
             DistToSwitchIdle = 20
         };

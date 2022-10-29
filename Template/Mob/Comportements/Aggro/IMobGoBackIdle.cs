@@ -1,6 +1,7 @@
 using Godot;
 
 public interface IMobGoBackIdle{
+    public float DistanceMax {get;}
     public bool StayAggro(MobTargets targets);
 }
 

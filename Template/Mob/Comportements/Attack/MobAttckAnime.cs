@@ -43,4 +43,8 @@ public class MobAttckAnime: Godot.Object, IMobAttack{
         Delay.Cancel();
     }
 
+    public void AttackAction(float delta){
+
+    }
+
 }

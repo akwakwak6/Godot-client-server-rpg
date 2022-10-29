@@ -9,7 +9,7 @@ public class CompAggroGoTarget : IMobCompAggro{
     public int DistToSwitchIdle {get;set;} = 4;
     public float KeepTargetDistance {get;set;} = 1;
 
-    public IMobSelectAttack SelectAttack{get;set;} = new MobSelectRandomAttack();
+    public IMobSelectAttack SelectAttack{get;set;} = new MobSelectAttack();
     public IMobSelectTarget SelectTarget{get;set;} = new MobSelectFirstTarget();
     public IMobGoBackIdle GoBackIdle{get;set;} = new MobGoBackIdle();
 
