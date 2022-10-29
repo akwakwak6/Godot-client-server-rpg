@@ -41,7 +41,7 @@ public class Player : KinematicBody
     }
 
     private void sendData(){
-        ClientNetwork.SendPlayerData(GlobalTransform);
+        ClientNetwork.SendPlayerData(this);
     }
 
     public void AggroMob(IMob mob){

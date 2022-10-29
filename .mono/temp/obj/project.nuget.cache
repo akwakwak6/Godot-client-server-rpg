@@ -1,12 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "l7Bszj7+i4iIMGkHe0FF4K4tdTj62CCimLJuX/l4vJbnSEM7g8KUzC5dyTqICOpeHBoFtryff8Mp42ZwjBoLYQ==",
+  "dgSpecHash": "aCV7exWnDrslctmbT2DCqkSc1sPW1dpAVuVT0r/2fU8iOF081i+ZZZv4OxeHrIWlJTvJbVJeFlEtZPy+vTeksQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\misso\\OneDrive\\Documents\\Godot\\My game VR\\RPG 3D\\Rpg 3d.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\misso\\.nuget\\packages\\grpc\\2.46.5\\grpc.2.46.5.nupkg.sha512",
+    "C:\\Users\\misso\\.nuget\\packages\\grpc.core\\2.46.5\\grpc.core.2.46.5.nupkg.sha512",
+    "C:\\Users\\misso\\.nuget\\packages\\grpc.core.api\\2.46.5\\grpc.core.api.2.46.5.nupkg.sha512",
     "C:\\Users\\misso\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\misso\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.0\\microsoft.extensions.dependencyinjection.6.0.0.nupkg.sha512",
     "C:\\Users\\misso\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\misso\\.nuget\\packages\\system.buffers\\4.4.0\\system.buffers.4.4.0.nupkg.sha512",
+    "C:\\Users\\misso\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\misso\\.nuget\\packages\\system.numerics.vectors\\4.4.0\\system.numerics.vectors.4.4.0.nupkg.sha512",
     "C:\\Users\\misso\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\misso\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
   ],

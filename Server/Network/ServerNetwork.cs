@@ -1,15 +1,18 @@
+using System.Security.Authentication.ExtendedProtection;
 using Godot;
 
 public partial class Network : IServerNetwork{
 
+	
 	private const int NB_MAX_CLIENT = 20;
 
     public void StartServer(){
-		GD.Print("Start server");
+		GD.Print("Start server");		
 		NetworkPeer.CreateServer(PORT,NB_MAX_CLIENT);
 		GetTree().NetworkPeer = NetworkPeer;
 		GetTree().Connect("network_peer_connected", this, nameof(PlayerConnected));
 		GetTree().Connect("network_peer_disconnected", this, nameof(PlayerDisconnect));
+
 	}
 
 	private void PlayerConnected(int playerID){
@@ -26,9 +29,13 @@ public partial class Network : IServerNetwork{
 
 
 	[Remote]
-	public void PlayerData(Transform d){
+	public void PlayerData(Godot.Collections.Dictionary data){
+
 		int pId = GetTree().GetRpcSenderId();
-		GetNode<KinematicBody>(pId.ToString()).GlobalTransform = d;
+		GD.Print("get data ");
+		GD.Print( data.GetModelData<PlayerPositionModel>().P );
+		GD.Print( data.GetModelData<PlayerPositionModel>().T );
+		GetNode<KinematicBody>(pId.ToString()).GlobalTransform = (Transform) data["P"];
 	}
 
 }

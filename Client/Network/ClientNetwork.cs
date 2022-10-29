@@ -26,9 +26,16 @@ public partial class Network : IClientNetwork{
 		IsConnectedToServer = false;
 	}
 	
-	public void SendPlayerData(Transform d){
-		if( IsConnectedToServer )
-			RpcId(1,"PlayerData",d);
+	public void SendPlayerData(Player p){
+		
+		if( !IsConnectedToServer ) return;//TODO no bool but get from tree
+
+		PlayerPositionModel d = new PlayerPositionModel(){
+			P = p.GlobalTransform,
+			T = ( DateTime.Now.Ticks / 10_000 ) % 1_000_000_000// ~11.5 day
+			//TODO find a better way Godot.Collections.Dictionary doesn't take long ? 
+		};
+		RpcId(1,"PlayerData",d.GetGodotData());
 	}
 }
 
