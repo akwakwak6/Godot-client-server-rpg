@@ -22,7 +22,7 @@ Network="*res://nodes/Network/Network.cs"
 [debug]
 
 gdscript/warnings/return_value_discarded=false
-multirun/number_of_windows=2
+multirun/number_of_windows=3
 multirun/window_distance=50
 multirun/add_custom_args=true
 multirun/first_window_args="server"

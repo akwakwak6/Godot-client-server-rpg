@@ -3,5 +3,5 @@ using Godot;
 public interface IClientNetwork{
 
     void StartClient();
-    void SendPlayerData(Player d);
+    public void SendPlayerData(Player p);
 }

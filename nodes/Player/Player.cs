@@ -41,6 +41,10 @@ public class Player : KinematicBody
     }
 
     private void sendData(){
+        PlayerModel pm = new PlayerModel(){
+            Time = (int)OS.GetTicksMsec(),//TODO actually can not use long in godot object, find a way.
+            Tr = GlobalTransform
+        };
         ClientNetwork.SendPlayerData(this);
     }
 

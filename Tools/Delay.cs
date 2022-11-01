@@ -14,6 +14,18 @@ public class Delay {
         }
     }
 
+    public async void boucle( int time, Action action ){
+        try{
+            src = new CancellationTokenSource();
+            while(true){
+                await Task.Delay(time,src.Token);
+                action();
+            }    
+        }catch(Exception e){
+
+        }
+    }
+
     public void Cancel(){
         src?.Cancel();
     }

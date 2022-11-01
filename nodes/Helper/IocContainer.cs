@@ -25,6 +25,7 @@ public class IocContainer : Node{
         Network n = GetNode<Network>("/root/Network");
         Collection.AddSingleton<IClientNetwork>(n);
         Collection.AddSingleton<IServerNetwork>(n);
+        Collection.AddSingleton<WorldManager>();
         
         Collection.AddSingleton<PlayerData>();
 

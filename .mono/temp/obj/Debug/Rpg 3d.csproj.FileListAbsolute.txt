@@ -22,3 +22,4 @@ C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\R
 C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.csproj.CopyComplete
 C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.dll
 C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\obj\Debug\Rpg 3d.pdb
+C:\Users\misso\OneDrive\Documents\Godot\My game VR\RPG 3D\.mono\temp\bin\Debug\Newtonsoft.Json.dll
