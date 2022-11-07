@@ -23,11 +23,15 @@ public class IocContainer : Node{
     private void RegisterService(){
 
         Network n = GetNode<Network>("/root/Network");
+        WorldManager wn = GetNode<WorldManager>("/root/WorldManager");
         Collection.AddSingleton<IClientNetwork>(n);
         Collection.AddSingleton<IServerNetwork>(n);
-        Collection.AddSingleton<WorldManager>();
-        
+        Collection.AddSingleton<WorldManager>(wn);
         Collection.AddSingleton<PlayerData>();
+        Collection.AddSingleton<IrpcClient,RpcClient>();
+        //Collection.AddSingleton<IrpcServer,RpcServer>();
+
+        test t = new test();
 
     }
 }

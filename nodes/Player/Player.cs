@@ -13,17 +13,27 @@ public class Player : KinematicBody
     private readonly PackedScene BulletScene = GD.Load<PackedScene>("res://nodes/Items/Weapons/Bullets/Bullet.tscn");
     private readonly  Environment DeadSky = GD.Load<Environment>("res://nodes/Player/DeadSky.tres");
     private Vector3 Velo = Vector3.Zero;
+    private readonly Delay loop = new Delay();
 
-    public override void _Ready()
+
+    private string tptptp = "none";
+
+    private IrpcClient prcC;
+
+    public override async void _Ready()
     {
-        GetNode<Timer>("SendData").Connect("timeout",this,"sendData");
+        //GetNode<Timer>("SendData").Connect("timeout",this,"sendData");//TODO remove timer
         ClientNetwork = this.GetServiceFromIOC<IClientNetwork>();
         PlayerData pd = this.GetServiceFromIOC<PlayerData>();
         pd.SetPlayer(GetNode<Camera>("Camera"),this);
         _Camera = GetNode<Camera>("Camera");
+        loop.boucle(20,sendData);
+        //ClientNetwork.Request<PlayerModel>();
+        prcC = this.GetServiceFromIOC<IrpcClient>();
+
     }
 
-    public override void _Input(InputEvent e)
+    public async override void _Input(InputEvent e)
     {
         if (e.IsActionPressed("ui_accept")){
             Bullet b =  BulletScene.Instance<Bullet>();
@@ -37,15 +47,18 @@ public class Player : KinematicBody
             b.SetOrigin(globalPosition);
             b.SetSender(this);
             GetParent().AddChild(b);
+
+            GD.Print(await prcC.GetHelloPara("FEU"));
+
         }
     }
 
     private void sendData(){
-        PlayerModel pm = new PlayerModel(){
-            Time = (int)OS.GetTicksMsec(),//TODO actually can not use long in godot object, find a way.
-            Tr = GlobalTransform
-        };
         ClientNetwork.SendPlayerData(this);
+    }
+
+    private void test(PlayerModel pm){
+
     }
 
     public void AggroMob(IMob mob){

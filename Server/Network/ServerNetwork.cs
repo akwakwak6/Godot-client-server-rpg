@@ -15,7 +15,7 @@ public partial class Network : IServerNetwork{
 		GetTree().NetworkPeer = NetworkPeer;
 		GetTree().Connect("network_peer_connected", this, nameof(PlayerConnected));
 		GetTree().Connect("network_peer_disconnected", this, nameof(PlayerDisconnect));
-		loop.boucle(2000,SendPlayersPosition);
+		loop.boucle(35,SendPlayersPosition);
 	}
 
 	private void PlayerConnected(int playerID){
@@ -29,52 +29,55 @@ public partial class Network : IServerNetwork{
 	private void PlayerDisconnect(int playerID){
 		GD.Print($"Server player {playerID} disconnect");
 		_PlayersPosition.Remove(playerID);
+		if(HasNode(playerID.ToString())){
+			GetNode(playerID.ToString()).QueueFree();
+		}
 	}
 
 	private void SendPlayersPosition(){
 		if( _PlayersPosition.Count == 0 )	return;
-		/*Godot.Collections.Dictionary data = new Godot.Collections.Dictionary();
-		Godot.Collections.Dictionary players = new Godot.Collections.Dictionary();
-		foreach( KeyValuePair<int,PlayerModels> pm in _PlayersPosition ){
-			players.Add(pm.Key,pm.Value.P);
-		}
-		data.Add("Players",players);
-		data.Add("T", (int) OS.GetTicksMsec());//TODO after fix issue long in godot object, use long.*/
-		
 		WorldStateModel m = new WorldStateModel(){
-			T = (int) OS.GetTicksMsec(),
-			PS = _PlayersPosition.Select( p => new  PlayerModels(){ Id = p.Key , TR = p.Value.Tr } ).ToList<PlayerModels>()
+			T = OS.GetTicksMsec(),
+			PS = _PlayersPosition.Select( p => new PlayerServer(){ Id = p.Key , TR = p.Value.Tr } ).ToList<PlayerServer>()
 		};
-		RpcUnreliableId(0,nameof(ReceiveWorlState),m.GetGodotData());
-	}
 
+		foreach(var ps in  _PlayersPosition ){
+			if(HasNode(ps.Key.ToString())){
+				GetNode<KinematicBody>(ps.Key.ToString()).GlobalTransform = ps.Value.Tr;
+			}
+		}
+		
+		RpcUnreliableId(0,nameof(ReceiveWorlState),m.GetGodotData());
+		
+	}
 
 	[Remote]
 	private void PlayerData(params object[] d){
 
+		int id = GetTree().GetRpcSenderId();
 		PlayerModel pm = d.GetModelData<PlayerModel>();
-
-		GD.Print(pm.Time);
-		GD.Print(pm.Tr);
-		GD.Print(pm.pm);
-		foreach(PlayerModels f in pm.pm){
-			GD.Print(f.Id);
-			GD.Print(f.TR);
-		}
-		//GD.Print(pm.pm.Id);
-
-		/*int pId = GetTree().GetRpcSenderId();
-		KinematicBody kine = GetNode<KinematicBody>(pId.ToString());
-		PlayerModel pm = data.GetModelData<PlayerModel>();
-		kine.GlobalTransform = pm.Tr;
-		if(_PlayersPosition.ContainsKey(pId)){
-			if(_PlayersPosition[pId].Time < pm.Time){
-				_PlayersPosition[pId] = pm;
+		if(_PlayersPosition.ContainsKey(id)){
+			if( _PlayersPosition[id].Time < pm.Time ){
+				_PlayersPosition[id] = pm;
 			}
 		}else{
-			_PlayersPosition.Add(pId,pm);
-		}*/
+			_PlayersPosition.Add(id,pm);
+		}
+		
+	}
 
+	[Remote]
+	private void RequestServer(int index,params object[] data){
+		int id = GetTree().GetRpcSenderId();
+		data[0] += " checked ";
+		RpcId(id, nameof(AnswerRequest),index, data );
+	}
+
+	[Remote]
+	private void RequestServer(int index){
+		int id = GetTree().GetRpcSenderId();
+		Tp tp = new Tp(){para = "OKi good enought"};
+		RpcId(id, nameof(AnswerRequest),index , tp.GetGodotData() );
 	}
 
 }

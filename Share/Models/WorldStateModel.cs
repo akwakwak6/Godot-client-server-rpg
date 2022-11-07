@@ -3,8 +3,14 @@ using Godot;
 
 public class WorldStateModel : ConvertGodoData{
 
-    public List<PlayerModels> PS {get;set;}
+    public List<PlayerServer> PS {get;set;}
+    public ulong T {get;set;}
 
-    public int T {get;set;}
+}
+
+public class PlayerServer : ConvertGodoData{
+
+    public Transform TR {get;set;}
+    public int Id {get;set;}
 
 }

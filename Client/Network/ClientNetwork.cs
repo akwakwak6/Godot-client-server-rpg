@@ -1,11 +1,19 @@
-using Godot;
-using System;
+using System.Drawing;
+using System.Reflection;
 using System.Collections.Generic;
+using ConnectionStatus = Godot.NetworkedMultiplayerPeer.ConnectionStatus;
+using System.Threading;
+using System.Threading.Tasks;
+using System;
+using Godot;
 
 public partial class Network : IClientNetwork{
 	private const string SERVER_IP = "127.0.0.1";
 	private Boolean IsConnectedToServer = false;
 	private WorldManager _WorldManager;
+
+	private int index = 0;
+	private Dictionary<int,Wrapper> Wrappers = new Dictionary<int, Wrapper>();
 
 	public void StartClient(){
 		GD.Print("Start client");
@@ -20,7 +28,8 @@ public partial class Network : IClientNetwork{
 	private void ConnectionSucceeded(){
 		GD.Print("connected success");
 		//Rpc("RequestData","dataName",123);
-		IsConnectedToServer = true;
+		IsConnectedToServer = true;//TODO bool useless
+		SyncClock.GetInstance().InitSync();
 	}
 
 	private void ConnectionFaild(){
@@ -30,31 +39,59 @@ public partial class Network : IClientNetwork{
 	
 	public void SendPlayerData(Player p){
 
-		if( !IsConnectedToServer ) return;//TODO no bool but get from tree
+		if( GetTree().NetworkPeer.GetConnectionStatus() != ConnectionStatus.Connected )
+			return;
 
-		List<PlayerModels> l = new List<PlayerModels>();
-		l.Add(new PlayerModels(){
-				Id = 67,
-				TR = p.GlobalTransform
-			});
-		l.Add(new PlayerModels(){
-				Id = 89,
-				//TR = p.GlobalTransform
-			});
-		
 		PlayerModel d = new PlayerModel(){
-			Time = (int) Time.GetTicksMsec(),
-			Tr = p.GlobalTransform,
-			//pm = l
+			Time = Time.GetTicksMsec(),
+			Tr = p.GlobalTransform
 		};
-		//d.GetGodotData();
 		RpcUnreliableId(1,nameof(PlayerData),d.GetGodotData());
 	}
 
 	[Remote]
-	private void ReceiveWorlState(Godot.Collections.Dictionary data){
-		GD.Print("get data");
-		//_WorldManager.AddWorldState(data.GetModelData<WorldStateModel>());		
+	private void ReceiveWorlState(params object[] data){
+		_WorldManager.AddWorldState(data.GetModelData<WorldStateModel>());	
+	}
+
+	public async Task<T> Request<T>(ConvertGodoData data)where T : ConvertGodoData,new(){
+		Wrapper<T> w = new Wrapper<T>();
+		Wrappers.Add(index,w);
+		RpcId(1,nameof(RequestServer),index,data.GetGodotData());
+		index++;
+		if(index > 1_000_000)	index = 0;
+		await w;
+		return w.Item;
+	}
+
+	public async Task<T> Request<T>()where T : ConvertGodoData,new(){
+		Wrapper<T> w = new Wrapper<T>();
+		Wrappers.Add(index,w);
+		RpcId(1,nameof(RequestServer),index);
+		index++;
+		if(index > 1_000_000)	index = 0;
+		await w;
+		return w.Item;
+	}
+
+	[Remote]
+	public void AnswerRequest(int i,params object[] data){
+		Wrappers[i].Convert(data);
+		Wrappers[i].Start();
+		Wrappers.Remove(i);
+	}
+
+
+	abstract class Wrapper :Task{
+		public Wrapper():base( ()=>{} ){}
+		public abstract void Convert(object[] data);
+	}
+
+	class Wrapper<T> : Wrapper where T : ConvertGodoData,new(){
+		public T Item {get;private set;}
+		public override void Convert(object[] data){
+			Item = data.GetModelData<T>();
+		}
 	}
 }
 
