@@ -18,9 +18,14 @@ public class IocContainer : Node{
 
         RegisterService();
         ServiceProvider = Collection.BuildServiceProvider();
+
+                //TODO remove
+        RpcClient rc = new RpcClient();
     }
 
     private void RegisterService(){
+
+
 
         Network n = GetNode<Network>("/root/Network");
         WorldManager wn = GetNode<WorldManager>("/root/WorldManager");
@@ -28,10 +33,10 @@ public class IocContainer : Node{
         Collection.AddSingleton<IServerNetwork>(n);
         Collection.AddSingleton<WorldManager>(wn);
         Collection.AddSingleton<PlayerData>();
-        Collection.AddSingleton<IrpcClient,RpcClient>();
-        //Collection.AddSingleton<IrpcServer,RpcServer>();
+        //Collection.AddSingleton<IrpcClient,RpcClient>();
+        Collection.AddSingleton<IrpcServer,test>();
+        Collection.AddSingleton<IrpcClientServer,test>();
 
-        test t = new test();
 
     }
 }

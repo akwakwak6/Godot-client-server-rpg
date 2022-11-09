@@ -54,25 +54,25 @@ public partial class Network : IClientNetwork{
 		_WorldManager.AddWorldState(data.GetModelData<WorldStateModel>());	
 	}
 
-	public async Task<T> Request<T>(ConvertGodoData data)where T : ConvertGodoData,new(){
+	public async Task<T> Request<T>(int cmd,ConvertGodoData data)where T : ConvertGodoData,new(){
 		Wrapper<T> w = new Wrapper<T>();
 		Wrappers.Add(index,w);
-		RpcId(1,nameof(RequestServer),index,data.GetGodotData());
+		RpcId(1,nameof(RequestServer),index,cmd,data.GetGodotData());
 		index++;
 		if(index > 1_000_000)	index = 0;
 		await w;
 		return w.Item;
 	}
 
-	public async Task<T> Request<T>()where T : ConvertGodoData,new(){
+	/*public async Task<T> Request<T>()where T : ConvertGodoData,new(){//TODO update maybe Later
 		Wrapper<T> w = new Wrapper<T>();
 		Wrappers.Add(index,w);
-		RpcId(1,nameof(RequestServer),index);
+		RpcId(1,nameof(RequestServer),0,index);
 		index++;
-		if(index > 1_000_000)	index = 0;
+		if(index > 1_000_000)	index = 0;//TODO useless ? 
 		await w;
 		return w.Item;
-	}
+	}*/
 
 	[Remote]
 	public void AnswerRequest(int i,params object[] data){
@@ -90,7 +90,12 @@ public partial class Network : IClientNetwork{
 	class Wrapper<T> : Wrapper where T : ConvertGodoData,new(){
 		public T Item {get;private set;}
 		public override void Convert(object[] data){
+			GD.Print("get answer convert");
+			GD.Print(data);
+			GD.Print(data.Length);
+			GD.Print(data[0]);
 			Item = data.GetModelData<T>();
+			GD.Print("converted");
 		}
 	}
 }

@@ -23,11 +23,11 @@ WorldManager="*res://Client/World/WorldManager.cs"
 [debug]
 
 gdscript/warnings/return_value_discarded=false
-multirun/number_of_windows=1
+multirun/number_of_windows=2
 multirun/window_distance=50
 multirun/add_custom_args=true
-multirun/first_window_args="server"
-multirun/other_window_args="client"
+multirun/first_window_args="client"
+multirun/other_window_args="server"
 
 [display]
 

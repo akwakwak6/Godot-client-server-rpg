@@ -4,10 +4,11 @@ using Godot;
 
 public partial class Network : IServerNetwork{
 
-	
 	private const int NB_MAX_CLIENT = 20;
 	private readonly Dictionary<int,PlayerModel> _PlayersPosition = new Dictionary<int,PlayerModel>();
 	private readonly Delay loop = new Delay();
+
+	private IrpcServer rpcServer;
 
     public void StartServer(){
 		GD.Print("Start server");		
@@ -16,6 +17,7 @@ public partial class Network : IServerNetwork{
 		GetTree().Connect("network_peer_connected", this, nameof(PlayerConnected));
 		GetTree().Connect("network_peer_disconnected", this, nameof(PlayerDisconnect));
 		loop.boucle(35,SendPlayersPosition);
+		rpcServer = this.GetServiceFromIOC<IrpcServer>();
 	}
 
 	private void PlayerConnected(int playerID){
@@ -46,9 +48,7 @@ public partial class Network : IServerNetwork{
 				GetNode<KinematicBody>(ps.Key.ToString()).GlobalTransform = ps.Value.Tr;
 			}
 		}
-		
 		RpcUnreliableId(0,nameof(ReceiveWorlState),m.GetGodotData());
-		
 	}
 
 	[Remote]
@@ -67,18 +67,23 @@ public partial class Network : IServerNetwork{
 	}
 
 	[Remote]
-	private void RequestServer(int index,params object[] data){
+	private void RequestServer(int index,int cmd,params object[] data){
 		int id = GetTree().GetRpcSenderId();
-		data[0] += " checked ";
-		RpcId(id, nameof(AnswerRequest),index, data );
+		//data[0] += " checked ";
+		GD.Print("before "+cmd);
+		ConvertGodoData ret =   rpcServer.Call(cmd,data)  ;
+		//rpcServer.Call(cmd,data);
+		GD.Print("after");
+		GD.Print(ret);
+		RpcId(id, nameof(AnswerRequest),index, ret.GetGodotData() );
 	}
 
-	[Remote]
-	private void RequestServer(int index){
+	/*[Remote]
+	private void RequestServer(int index,int cmd){
 		int id = GetTree().GetRpcSenderId();
 		Tp tp = new Tp(){para = "OKi good enought"};
 		RpcId(id, nameof(AnswerRequest),index , tp.GetGodotData() );
-	}
+	}*/
 
 }
 

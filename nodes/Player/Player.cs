@@ -48,7 +48,16 @@ public class Player : KinematicBody
             b.SetSender(this);
             GetParent().AddChild(b);
 
-            GD.Print(await prcC.GetHelloPara("FEU"));
+            GD.Print("before FEU");
+            //GD.Print(await prcC.GetHelloPara( new Tp(){para = "FEU (p)"}));
+            PlayerModel pm = new PlayerModel();
+            pm.Time = 333;
+            pm.Tr = this.Transform;
+
+            //PlayerModel pm2 = await prcC.GetUserTime( pm );
+            //GD.Print(pm2.Time);
+            GD.Print("after FEU");
+
 
         }
     }
@@ -66,7 +75,7 @@ public class Player : KinematicBody
     }
 
     private void OnKilledMob(IMob mob){
-        GD.Print("I Kill the mob ");
+        GD.Print("I Killed the mob ");
     }
 
 
